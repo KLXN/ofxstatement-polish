@@ -57,6 +57,10 @@ class MBankPLParser(CsvStatementParser):
         # type - description
         sl.payee = re.sub("\s+", " ", ' - '.join(line[2:4]))
 
+        # make sure that memo is not empty
+        if not len(str(sl.memo).strip()):
+            sl.memo = sl.payee
+        
         # generate transaction id out of available data
         sl.id = statement.generate_transaction_id(sl)
         
@@ -66,7 +70,6 @@ class MBankPLParser(CsvStatementParser):
             sl.trntype = "ATM"
         elif line[2].startswith("ZAKUP"):
             sl.trntype = "DEBIT"
-            sl.memo = sl.payee
         elif line[2].startswith("PODATEK"):
             sl.trntype = "FEE"
         elif line[2].startswith("OPŁATA"):
