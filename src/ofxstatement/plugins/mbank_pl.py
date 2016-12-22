@@ -66,6 +66,7 @@ class MBankPLParser(CsvStatementParser):
             sl.trntype = "ATM"
         elif line[2].startswith("ZAKUP"):
             sl.trntype = "DEBIT"
+            sl.memo = sl.payee
         elif line[2].startswith("PODATEK"):
             sl.trntype = "FEE"
         elif line[2].startswith("OPŁATA"):
